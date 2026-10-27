@@ -27,18 +27,47 @@ export function normalizePath(path: string): string {
 }
 
 /**
- * Parses query string into key-value map
+ * Safely decodes a URI component without throwing URIError on malformed strings
+ */
+export function safeDecode(val: string): string {
+  try {
+    return decodeURIComponent(val);
+  } catch {
+    return val;
+  }
+}
+
+/**
+ * Parses query string into key-value map using URLSearchParams with safe fallback
  */
 export function parseQueryString(search: string): Record<string, string> {
   const params: Record<string, string> = {};
   if (!search) return params;
-  const cleanSearch = search.startsWith('?') ? search.slice(1) : search;
-  const pairs = cleanSearch.split('&');
-  for (const pair of pairs) {
-    if (!pair) continue;
-    const [key, val] = pair.split('=');
-    if (key) {
-      params[decodeURIComponent(key)] = decodeURIComponent(val || '');
+
+  try {
+    const cleanSearch = search.startsWith('?') ? search.slice(1) : search;
+    const urlParams = new URLSearchParams(cleanSearch);
+    urlParams.forEach((value, key) => {
+      params[key] = value;
+    });
+  } catch {
+    // Fallback if URLSearchParams encounters an unexpected input
+    try {
+      const cleanSearch = search.startsWith('?') ? search.slice(1) : search;
+      const pairs = cleanSearch.split('&');
+      for (const pair of pairs) {
+        if (!pair) continue;
+        const eqIdx = pair.indexOf('=');
+        if (eqIdx !== -1) {
+          const key = safeDecode(pair.slice(0, eqIdx));
+          const val = safeDecode(pair.slice(eqIdx + 1));
+          params[key] = val;
+        } else {
+          params[safeDecode(pair)] = '';
+        }
+      }
+    } catch {
+      // Safe no-op to prevent app crash on malformed inputs
     }
   }
   return params;
@@ -48,27 +77,41 @@ export function parseQueryString(search: string): Record<string, string> {
  * Resolves current path to a valid AppRoute or 404
  */
 export function matchRoute(path: string): AppRoute {
-  const normalized = normalizePath(path);
-  if (VALID_ROUTES.includes(normalized as AppRoute)) {
-    return normalized as AppRoute;
+  try {
+    const normalized = normalizePath(path);
+    if (VALID_ROUTES.includes(normalized as AppRoute)) {
+      return normalized as AppRoute;
+    }
+    return '404';
+  } catch {
+    return '404';
   }
-  return '404';
 }
 
 /**
  * Parses full URL or relative path into RouteState
  */
 export function parseLocation(pathname: string, search = '', hash = ''): RouteState {
-  const normPath = normalizePath(pathname);
-  const matchedRoute = matchRoute(normPath);
-  const queryParams = parseQueryString(search);
-  return {
-    path: normPath,
-    matchedRoute,
-    search,
-    hash: hash.startsWith('#') ? hash.slice(1) : hash,
-    queryParams,
-  };
+  try {
+    const normPath = normalizePath(pathname);
+    const matchedRoute = matchRoute(normPath);
+    const queryParams = parseQueryString(search);
+    return {
+      path: normPath,
+      matchedRoute,
+      search,
+      hash: hash.startsWith('#') ? hash.slice(1) : hash,
+      queryParams,
+    };
+  } catch {
+    return {
+      path: '/',
+      matchedRoute: '/',
+      search: '',
+      hash: '',
+      queryParams: {},
+    };
+  }
 }
 
 /**

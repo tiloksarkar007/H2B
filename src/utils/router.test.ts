@@ -19,6 +19,21 @@ test('parseQueryString correctly decomposes params', () => {
   assert.deepEqual(empty, {});
 });
 
+test('parseQueryString safely handles malformed query strings without throwing', () => {
+  // URLs such as /contact?service=% or %ZZ must never crash
+  const malformed1 = parseQueryString('?service=%');
+  assert.equal(malformed1.service, '%');
+
+  const malformed2 = parseQueryString('?q=%ZZ%2&bad=%&normal=hello+world');
+  assert.ok(malformed2.normal.includes('hello world'));
+  assert.ok(malformed2.bad !== undefined);
+
+  // parseLocation with malformed query
+  const loc = parseLocation('/contact', '?service=%', '');
+  assert.equal(loc.matchedRoute, '/contact');
+  assert.equal(loc.queryParams.service, '%');
+});
+
 test('matchRoute recognizes valid routes and fallback 404', () => {
   assert.equal(matchRoute('/'), '/');
   assert.equal(matchRoute('/about'), '/about');

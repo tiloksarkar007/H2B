@@ -207,8 +207,8 @@ export const VALUES: ValueItem[] = [
   },
   {
     title: 'Respectful Outreach',
-    description: 'We represent your brand with professionalism. Every phone interaction is courteous, respectful of prospects’ time, and legally compliant.',
-    application: 'Compliance with do-not-call lists, polite objection handling, and immediate removal upon request.'
+    description: 'We represent your brand with professionalism. Every phone interaction is courteous, respectful of prospects’ time, and conducted appropriately.',
+    application: 'Observing do-not-call preferences, polite objection handling, and prompt removal upon request.'
   }
 ];
 
@@ -255,42 +255,42 @@ export const FAQS: FaqItem[] = [
     id: 'faq-different',
     category: 'methodology',
     question: 'How is Hub2Biz different from high-volume automated outreach agencies?',
-    answer: 'Rather than blasting thousands of unresearched cold emails or using automated diallers that drop calls, Hub2Biz focuses on research-driven, human-to-human phone outreach. Every prospect is vetted for relevance before we dial, and our representatives engage in conversational, consultative dialogues that protect and elevate your brand reputation.'
+    answer: 'Rather than blasting unresearched mass emails or using automated diallers, Hub2Biz focuses on research-driven, human-to-human phone outreach. Prospects are reviewed for relevance before we call, and our representatives engage in conversational, consultative dialogues that represent your brand professionally.'
   },
   {
     id: 'faq-guarantees',
     category: 'methodology',
     question: 'Do you guarantee a specific number of sales or meetings?',
-    answer: 'No. We believe ethical B2B lead generation requires transparency. Conversion rates depend on your market, product-market fit, offer competitiveness, and pricing. What we do guarantee is strict adherence to agreed outreach cadence, verified prospect criteria, and rigorous qualification before any meeting is scheduled.'
+    answer: 'No. Service deliverables and engagement scopes depend on the agreement with each client. We do not promise guaranteed sales, guaranteed meetings, or specific financial results. Instead, we focus on verified prospect research, agreed outreach cadence, and structured qualification before introductory discussions are arranged.'
   },
   {
     id: 'faq-qualification',
     category: 'qualification',
     question: 'How do you ensure leads match our ideal customer criteria?',
-    answer: 'During campaign onboarding, we co-author a detailed Qualification Matrix with your sales team. This specifies firmographic boundaries (industry, company size, geography), acceptable decision-maker titles, and non-negotiable discovery questions (such as current tooling, upcoming review dates, or pain point confirmation). Prospects who do not meet these criteria are not passed to your team.'
+    answer: 'During campaign onboarding, we work with your sales team to establish a Qualification Matrix. This outlines firmographic boundaries (industry, company size, geography), acceptable decision-maker titles, and key discovery questions (such as current tooling or timeline). Prospects who do not meet these agreed thresholds are not passed to your team.'
   },
   {
     id: 'faq-team-integration',
     category: 'collaboration',
     question: 'How does Hub2Biz work alongside our existing internal sales team?',
-    answer: 'We operate as a seamless top-of-funnel partner. We handle the heavy lifting of prospect research, switchboard navigation, and initial qualification. Once an opportunity meets your agreed criteria, we coordinate the introductory discussion directly onto your account executives’ calendars along with complete conversation briefings.'
+    answer: 'We operate as a top-of-funnel partner. We handle prospect research, switchboard navigation, and initial qualification. Once an opportunity meets your agreed criteria, we coordinate the introductory discussion directly onto your account executives’ calendars along with conversation briefing notes.'
   },
   {
     id: 'faq-scripting',
     category: 'collaboration',
     question: 'Do your callers follow a rigid, robotic script?',
-    answer: 'No. While we prepare a comprehensive campaign brief with approved positioning angles, key questions, and rebuttal strategies, our outreach is conversational. We treat decision-makers as peers, actively listening to their operational challenges rather than talking over them with a canned pitch.'
+    answer: 'No. While we prepare a campaign brief with approved positioning angles, key questions, and rebuttal guidelines, outreach is conversational. We treat decision-makers as peers, actively listening to their operational challenges rather than reciting a canned script.'
   },
   {
     id: 'faq-onboarding',
     category: 'methodology',
     question: 'What is the typical timeline to prepare and launch an outreach campaign?',
-    answer: 'A typical launch takes 7 to 14 business days from kickoff. During this time, we conduct the discovery workshop, finalize your targeting criteria, curate and verify the initial prospect accounts, establish messaging angles, and set up reporting workflows.'
+    answer: 'Campaign onboarding and preparation timelines depend on the scope agreed with each client, target market complexity, and data availability. During onboarding, we define targeting parameters, review your offer, curate prospect accounts, and agree on handoff criteria before outreach starts.'
   },
   {
     id: 'faq-compliance',
     category: 'compliance',
     question: 'How do you handle compliance and do-not-call regulations?',
-    answer: 'We strictly comply with applicable telephone marketing regulations and telecommunications standards. We scrub lists against official registers where relevant, promptly honour opt-out or do-not-contact requests, and maintain permanent suppression files.'
+    answer: 'Hub2Biz observes telephone preference registries and relevant telemarketing regulations for B2B communications. We honor opt-out and do-not-contact requests promptly and maintain suppression records to ensure respectful, professional outreach.'
   }
 ];

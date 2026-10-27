@@ -1,23 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter, Link } from '../context/RouterContext';
 import { Menu, X, ArrowRight, PhoneCall } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { path } = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const mobileNavRef = useRef<HTMLDivElement | null>(null);
+  const wasOpenRef = useRef(false);
 
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [path]);
 
-  // Handle escape key to close mobile menu
+  // Focus management when menu opens / closes
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      wasOpenRef.current = true;
+      // Focus the close button when opened
+      const timer = setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    } else if (wasOpenRef.current) {
+      // Return focus to menu button when closed
+      menuButtonRef.current?.focus();
+      wasOpenRef.current = false;
+    }
+  }, [mobileMenuOpen]);
+
+  // Keyboard trap and Escape listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && mobileMenuOpen) {
+      if (!mobileMenuOpen) return;
+
+      if (e.key === 'Escape') {
         setMobileMenuOpen(false);
+        return;
+      }
+
+      // Trap focus within mobile navigation modal
+      if (e.key === 'Tab' && mobileNavRef.current) {
+        const focusableElements = mobileNavRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       }
     };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [mobileMenuOpen]);
@@ -94,11 +141,12 @@ export const Header: React.FC = () => {
             {/* Mobile Menu Button */}
             <div className="flex md:hidden items-center">
               <button
+                ref={menuButtonRef}
                 type="button"
                 onClick={() => setMobileMenuOpen(true)}
                 className="p-2.5 rounded-lg text-[#10243A] hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#087F8C]"
                 aria-label="Open main menu"
-                aria-expanded={false}
+                aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-navigation"
               >
                 <Menu className="w-6 h-6" />
@@ -111,6 +159,7 @@ export const Header: React.FC = () => {
       {/* Full-Screen Mobile Navigation Overlay */}
       {mobileMenuOpen && (
         <div 
+          ref={mobileNavRef}
           id="mobile-navigation"
           role="dialog"
           aria-modal="true"
@@ -134,6 +183,7 @@ export const Header: React.FC = () => {
             </Link>
 
             <button
+              ref={closeButtonRef}
               type="button"
               onClick={() => setMobileMenuOpen(false)}
               className="p-2.5 rounded-lg text-[#10243A] hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#087F8C]"

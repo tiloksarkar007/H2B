@@ -18,46 +18,36 @@ import {
   Briefcase
 } from 'lucide-react';
 
+import { useEnquiryStore } from '../context/EnquiryStoreContext';
+
 export const ContactPage: React.FC = () => {
   const { queryParams } = useRouter();
+  const { formData, updateFormData, previewConfirmed, setPreviewConfirmed } = useEnquiryStore();
 
   // Determine intent from query param: 'consultation' | 'callback' | default
   const intent = queryParams.intent;
-  const initialService = queryParams.service || '';
-
-  const [formData, setFormData] = useState<ContactFormData>({
-    fullName: '',
-    workEmail: '',
-    companyName: '',
-    website: '',
-    phone: '',
-    serviceInterest: initialService && VALID_SERVICE_OPTIONS.some(o => o.value === initialService) 
-      ? initialService 
-      : '',
-    message: '',
-    privacyAccepted: false
-  });
 
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [previewConfirmed, setPreviewConfirmed] = useState(false);
 
-  // Sync service preselection if query param changes
+  // Sync service preselection if query param provides a valid service option
   useEffect(() => {
     if (queryParams.service && VALID_SERVICE_OPTIONS.some(o => o.value === queryParams.service)) {
-      setFormData(prev => ({ ...prev, serviceInterest: queryParams.service }));
+      // If service is not yet selected, preselect from query parameter
+      if (!formData.serviceInterest) {
+        updateFormData({ serviceInterest: queryParams.service });
+      }
     }
-  }, [queryParams.service]);
+  }, [queryParams.service, formData.serviceInterest, updateFormData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
 
-    setFormData(prev => ({
-      ...prev,
+    updateFormData({
       [name]: type === 'checkbox' ? checked : value
-    }));
+    });
 
     // Clear error for field once user starts typing
     if (errors[name]) {

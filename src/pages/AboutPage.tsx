@@ -63,7 +63,7 @@ export const AboutPage: React.FC = () => {
               </li>
               <li className="flex items-start gap-3">
                 <CheckCircle2 className="w-4 h-4 text-[#087F8C] shrink-0 mt-0.5" />
-                <span><strong>No synthetic conversation bots:</strong> Real, professional professionals handle your calls to ensure high brand dignity.</span>
+                <span><strong>No synthetic conversation bots:</strong> Experienced outreach specialists handle your calls to ensure high brand dignity.</span>
               </li>
               <li className="flex items-start gap-3">
                 <CheckCircle2 className="w-4 h-4 text-[#087F8C] shrink-0 mt-0.5" />

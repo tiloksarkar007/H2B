@@ -14,6 +14,8 @@ import { ContactPage } from './pages/ContactPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
+import { EnquiryProvider } from './context/EnquiryStoreContext';
+
 const AppContent: React.FC = () => {
   const { matchedRoute, queryParams } = useRouter();
 
@@ -37,7 +39,7 @@ const AppContent: React.FC = () => {
         }
         break;
       case '/privacy':
-        document.title = 'Privacy Policy & Deployment Guide | Hub2Biz';
+        document.title = 'Privacy Policy (Draft) | Hub2Biz';
         break;
       default:
         document.title = 'Page Not Found | Hub2Biz';
@@ -84,7 +86,9 @@ const AppContent: React.FC = () => {
 export default function App() {
   return (
     <RouterProvider>
-      <AppContent />
+      <EnquiryProvider>
+        <AppContent />
+      </EnquiryProvider>
     </RouterProvider>
   );
 }
