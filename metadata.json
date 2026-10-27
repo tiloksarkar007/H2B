@@ -1,0 +1,6 @@
+{
+  "name": "Hub2Biz",
+  "description": "B2B cold-calling, lead research, qualification, and appointment-setting services for focused sales teams.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

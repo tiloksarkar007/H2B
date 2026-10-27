@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #10243A;
+  --color-navy-dark: #0A1726;
+  --color-navy-surface: #173250;
+  --color-navy-muted: #244161;
+  --color-warm: #FAFAF7;
+  --color-warm-card: #FFFFFF;
+  --color-warm-subtle: #F3F3ED;
+  --color-warm-border: #E5E6DC;
+  --color-teal: #087F8C;
+  --color-teal-dark: #066570;
+  --color-teal-light: #EBF7F8;
+  --color-teal-hover: #0A98A8;
+  --color-orange: #F28C45;
+  --color-orange-hover: #E07831;
+  --color-orange-light: #FDF3EB;
+}
+
+:root {
+  color-scheme: light;
+}
+
+/* Accessible focus ring across all interactive controls */
+:focus-visible {
+  outline: 2px solid #087F8C;
+  outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
